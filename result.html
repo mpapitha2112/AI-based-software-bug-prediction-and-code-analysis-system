@@ -1,0 +1,1220 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Analysis Result | CodeGuard AI</title>
+
+<!-- Bootstrap 5 -->
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+>
+
+<!-- Bootstrap Icons -->
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    rel="stylesheet"
+>
+
+<!-- Custom CSS -->
+<link
+    rel="stylesheet"
+    href="{% static 'css/style.css' %}"
+>
+
+<style>
+
+    body {
+        background: #f5f7fb;
+        font-family: Arial, sans-serif;
+    }
+
+    .navbar-brand {
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+
+    .result-header {
+        background: linear-gradient(135deg, #1f2937, #374151);
+        color: white;
+        border-radius: 18px;
+        padding: 30px;
+        margin-bottom: 25px;
+    }
+
+    .result-card {
+        background: white;
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 5px 18px rgba(0, 0, 0, 0.07);
+        margin-bottom: 20px;
+    }
+
+    .score-circle {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px auto;
+        background: #eef2ff;
+        font-size: 30px;
+    }
+
+    .metric-title {
+        color: #6b7280;
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    .metric-value {
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+    .section-title {
+        font-weight: 700;
+        color: #111827;
+    }
+
+    .security-item {
+        border: 1px solid #e5e7eb;
+        border-left: 5px solid #dc3545;
+        border-radius: 12px;
+        padding: 18px;
+        margin-bottom: 15px;
+        background: #fff5f5;
+    }
+
+    .review-box {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 20px;
+        white-space: pre-line;
+        line-height: 1.7;
+    }
+
+    .empty-box {
+        padding: 30px;
+        text-align: center;
+        border-radius: 16px;
+        background: #f0fdf4;
+    }
+
+    .footer {
+        color: #6b7280;
+        padding: 30px 0;
+        text-align: center;
+    }
+
+    .score-number {
+        font-size: 30px;
+        font-weight: 700;
+    }
+
+    .risk-high {
+        color: #dc3545;
+    }
+
+    .risk-medium {
+        color: #f0ad00;
+    }
+
+    .risk-low {
+        color: #198754;
+    }
+
+    .achievement {
+        font-size: 26px;
+        font-weight: 700;
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<nav class="navbar navbar-expand-lg bg-white shadow-sm">
+
+```
+<div class="container">
+
+    <a
+        class="navbar-brand text-primary"
+        href="{% url 'home' %}"
+    >
+
+        <i class="bi bi-shield-check"></i>
+
+        CodeGuard AI
+
+    </a>
+
+
+    <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarMenu"
+        aria-controls="navbarMenu"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+    >
+
+        <span class="navbar-toggler-icon"></span>
+
+    </button>
+
+
+    <div
+        class="collapse navbar-collapse"
+        id="navbarMenu"
+    >
+
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+
+            <li class="nav-item">
+
+                <a
+                    class="nav-link"
+                    href="{% url 'dashboard' %}"
+                >
+
+                    Dashboard
+
+                </a>
+
+            </li>
+
+
+            <li class="nav-item">
+
+                <a
+                    class="nav-link"
+                    href="{% url 'upload' %}"
+                >
+
+                    Analyze Code
+
+                </a>
+
+            </li>
+
+
+            <li class="nav-item">
+
+                <a
+                    class="nav-link text-danger"
+                    href="{% url 'logout' %}"
+                >
+
+                    Logout
+
+                </a>
+
+            </li>
+
+        </ul>
+
+    </div>
+
+</div>
+```
+
+</nav>
+
+<!-- =========================================================
+     MAIN CONTENT
+========================================================= -->
+
+<div class="container py-4">
+
+```
+<!-- =====================================================
+     HEADER
+====================================================== -->
+
+<div class="result-header">
+
+    <div class="row align-items-center">
+
+        <div class="col-lg-8">
+
+            <p class="mb-2 opacity-75">
+
+                <i class="bi bi-file-earmark-code"></i>
+
+                Code Analysis Completed
+
+            </p>
+
+
+            <h1 class="fw-bold mb-2">
+
+                {{ analysis.project_name }}
+
+            </h1>
+
+
+            <p class="mb-0 opacity-75">
+
+                Your Python source code has been analyzed
+                using machine learning and static security checks.
+
+            </p>
+
+        </div>
+
+
+        <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+
+            <a
+                href="{% url 'upload' %}"
+                class="btn btn-light px-4"
+            >
+
+                <i class="bi bi-plus-circle"></i>
+
+                Analyze Another File
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     SUMMARY CARDS
+====================================================== -->
+
+<div class="row g-4 mb-4">
+
+
+    <!-- BUG RISK -->
+
+    <div class="col-md-6 col-lg-3">
+
+        <div class="result-card p-4 text-center">
+
+            <div class="score-circle">
+
+                {% if analysis.bug_risk == "High" %}
+
+                    <i class="bi bi-exclamation-triangle-fill text-danger"></i>
+
+                {% elif analysis.bug_risk == "Medium" %}
+
+                    <i class="bi bi-exclamation-circle-fill text-warning"></i>
+
+                {% else %}
+
+                    <i class="bi bi-check-circle-fill text-success"></i>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="metric-title">
+
+                Bug Risk
+
+            </div>
+
+
+            <div
+                class="metric-value
+                {% if analysis.bug_risk == 'High' %}
+                    risk-high
+                {% elif analysis.bug_risk == 'Medium' %}
+                    risk-medium
+                {% else %}
+                    risk-low
+                {% endif %}"
+            >
+
+                {{ analysis.bug_risk }}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- CODE QUALITY -->
+
+    <div class="col-md-6 col-lg-3">
+
+        <div class="result-card p-4 text-center">
+
+            <div class="score-circle">
+
+                <i class="bi bi-code-slash text-primary"></i>
+
+            </div>
+
+
+            <div class="metric-title">
+
+                Code Quality
+
+            </div>
+
+
+            <div class="metric-value">
+
+                {{ analysis.quality_score }}
+
+                <small class="text-muted">
+                    /100
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- SECURITY -->
+
+    <div class="col-md-6 col-lg-3">
+
+        <div class="result-card p-4 text-center">
+
+            <div class="score-circle">
+
+                <i class="bi bi-shield-lock-fill text-success"></i>
+
+            </div>
+
+
+            <div class="metric-title">
+
+                Security
+
+            </div>
+
+
+            <div class="metric-value">
+
+                {{ analysis.security_score }}
+
+                <small class="text-muted">
+                    /100
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- CODE HEALTH -->
+
+    <div class="col-md-6 col-lg-3">
+
+        <div class="result-card p-4 text-center">
+
+            <div class="score-circle">
+
+                <i class="bi bi-heart-pulse-fill text-danger"></i>
+
+            </div>
+
+
+            <div class="metric-title">
+
+                Code Health
+
+            </div>
+
+
+            <div class="metric-value">
+
+                {{ analysis.health_score }}
+
+                <small class="text-muted">
+                    /100
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     BUG PREDICTION
+====================================================== -->
+
+<div class="result-card p-4">
+
+    <div class="d-flex align-items-center mb-3">
+
+        <i class="bi bi-bug-fill text-danger fs-3 me-3"></i>
+
+        <div>
+
+            <h4 class="section-title mb-1">
+
+                Bug Prediction
+
+            </h4>
+
+            <p class="text-muted mb-0">
+
+                Machine learning prediction for potential
+                software defects.
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    {% if analysis.bug_risk == "High" %}
+
+        <div class="alert alert-danger rounded-3">
+
+            <strong>
+                High Bug Risk
+            </strong>
+
+            <br>
+
+            The analyzed code may contain patterns associated
+            with a higher probability of software bugs.
+
+        </div>
+
+    {% elif analysis.bug_risk == "Medium" %}
+
+        <div class="alert alert-warning rounded-3">
+
+            <strong>
+                Medium Bug Risk
+            </strong>
+
+            <br>
+
+            Some areas of the code may require additional
+            testing and review.
+
+        </div>
+
+    {% else %}
+
+        <div class="alert alert-success rounded-3">
+
+            <strong>
+                Low Bug Risk
+            </strong>
+
+            <br>
+
+            The machine learning analysis detected a relatively
+            low bug-risk pattern.
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+
+<!-- =====================================================
+     CODE QUALITY
+====================================================== -->
+
+<div class="result-card p-4">
+
+    <div class="d-flex align-items-center mb-3">
+
+        <i class="bi bi-bar-chart-fill text-primary fs-3 me-3"></i>
+
+        <div>
+
+            <h4 class="section-title mb-1">
+
+                Code Quality
+
+            </h4>
+
+            <p class="text-muted mb-0">
+
+                Overall quality score generated from the
+                analyzed Python source code.
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="d-flex justify-content-between mb-2">
+
+        <strong>
+            Quality Score
+        </strong>
+
+        <strong>
+            {{ analysis.quality_score }}/100
+        </strong>
+
+    </div>
+
+
+    <div class="progress" style="height: 14px;">
+
+        {% if analysis.quality_score >= 80 %}
+
+            <div
+                class="progress-bar bg-success"
+                role="progressbar"
+                style="width: 80%;"
+            >
+
+                {{ analysis.quality_score }}%
+
+            </div>
+
+        {% elif analysis.quality_score >= 50 %}
+
+            <div
+                class="progress-bar bg-warning"
+                role="progressbar"
+                style="width: 50%;"
+            >
+
+                {{ analysis.quality_score }}%
+
+            </div>
+
+        {% else %}
+
+            <div
+                class="progress-bar bg-danger"
+                role="progressbar"
+                style="width: 30%;"
+            >
+
+                {{ analysis.quality_score }}%
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     SECURITY ANALYSIS
+====================================================== -->
+
+<div class="result-card p-4">
+
+    <div class="d-flex justify-content-between align-items-start mb-4">
+
+        <div class="d-flex align-items-center">
+
+            <i class="bi bi-shield-lock-fill text-success fs-2 me-3"></i>
+
+            <div>
+
+                <h4 class="section-title mb-1">
+
+                    Security Analysis
+
+                </h4>
+
+                <p class="text-muted mb-0">
+
+                    Static security analysis of the uploaded
+                    Python source code.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        {% if security_risk == "High" %}
+
+            <span class="badge bg-danger fs-6">
+
+                High Risk
+
+            </span>
+
+        {% elif security_risk == "Medium" %}
+
+            <span class="badge bg-warning text-dark fs-6">
+
+                Medium Risk
+
+            </span>
+
+        {% else %}
+
+            <span class="badge bg-success fs-6">
+
+                Low Risk
+
+            </span>
+
+        {% endif %}
+
+    </div>
+
+
+
+    <!-- SECURITY SCORE -->
+
+    <div class="row g-4 mb-4">
+
+
+        <div class="col-md-6">
+
+            <div class="bg-light rounded-4 p-4">
+
+                <div class="d-flex justify-content-between mb-2">
+
+                    <strong>
+                        Security Score
+                    </strong>
+
+                    <strong>
+                        {{ analysis.security_score }}/100
+                    </strong>
+
+                </div>
+
+
+                <div class="progress" style="height: 12px;">
+
+                    {% if analysis.security_score >= 80 %}
+
+                        <div
+                            class="progress-bar bg-success"
+                            role="progressbar"
+                            style="width: 80%;"
+                        >
+                        </div>
+
+                    {% elif analysis.security_score >= 50 %}
+
+                        <div
+                            class="progress-bar bg-warning"
+                            role="progressbar"
+                            style="width: 50%;"
+                        >
+                        </div>
+
+                    {% else %}
+
+                        <div
+                            class="progress-bar bg-danger"
+                            role="progressbar"
+                            style="width: 30%;"
+                        >
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- VULNERABILITY COUNT -->
+
+        <div class="col-md-6">
+
+            <div class="bg-light rounded-4 p-4">
+
+                <div class="text-muted mb-1">
+
+                    Vulnerabilities Detected
+
+                </div>
+
+                <h2 class="fw-bold mb-0">
+
+                    {{ security_issues|length }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- SECURITY ISSUES -->
+
+    {% if security_issues %}
+
+        <h5 class="fw-bold mb-3">
+
+            <i class="bi bi-exclamation-triangle-fill text-warning"></i>
+
+            Detected Security Issues
+
+        </h5>
+
+
+        {% for issue in security_issues %}
+
+            <div class="security-item">
+
+                <h5 class="fw-bold mb-2">
+
+                    {% if issue.type %}
+
+                        {{ issue.type }}
+
+                    {% elif issue.title %}
+
+                        {{ issue.title }}
+
+                    {% else %}
+
+                        Security Issue
+
+                    {% endif %}
+
+                </h5>
+
+
+                <p class="text-muted mb-2">
+
+                    {% if issue.message %}
+
+                        {{ issue.message }}
+
+                    {% elif issue.description %}
+
+                        {{ issue.description }}
+
+                    {% else %}
+
+                        A potential security issue was detected.
+
+                    {% endif %}
+
+                </p>
+
+
+                {% if issue.severity %}
+
+                    {% if issue.severity == "High" %}
+
+                        <span class="badge bg-danger">
+                            High
+                        </span>
+
+                    {% elif issue.severity == "Medium" %}
+
+                        <span class="badge bg-warning text-dark">
+                            Medium
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge bg-success">
+                            Low
+                        </span>
+
+                    {% endif %}
+
+                {% endif %}
+
+
+                {% if issue.suggestion %}
+
+                    <div class="mt-3 p-3 bg-light rounded-3">
+
+                        <strong>
+
+                            <i class="bi bi-lightbulb-fill text-warning"></i>
+
+                            Suggested Fix
+
+                        </strong>
+
+
+                        <p class="text-muted mb-0 mt-2">
+
+                            {{ issue.suggestion }}
+
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        {% endfor %}
+
+
+    {% else %}
+
+        <div class="empty-box">
+
+            <i class="bi bi-shield-check text-success fs-1"></i>
+
+
+            <h5 class="fw-bold mt-3">
+
+                No Common Security Vulnerabilities Detected
+
+            </h5>
+
+
+            <p class="text-muted mb-0">
+
+                The uploaded Python code passed the current
+                static security checks.
+
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+
+<!-- =====================================================
+     AI CODE REVIEW
+====================================================== -->
+
+<div class="result-card p-4">
+
+    <div class="d-flex align-items-center mb-3">
+
+        <i class="bi bi-stars text-primary fs-2 me-3"></i>
+
+        <div>
+
+            <h4 class="section-title mb-1">
+
+                AI Code Review
+
+            </h4>
+
+            <p class="text-muted mb-0">
+
+                Recommendations for improving the source code.
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    {% if analysis.ai_review %}
+
+        <div class="review-box">
+
+            {{ analysis.ai_review }}
+
+        </div>
+
+    {% else %}
+
+        <div class="alert alert-info rounded-3">
+
+            AI code review is not available for this analysis.
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+
+<!-- =====================================================
+     REFACTORING SUGGESTIONS
+====================================================== -->
+
+<div class="result-card p-4">
+
+    <div class="d-flex align-items-center mb-3">
+
+        <i class="bi bi-tools text-warning fs-2 me-3"></i>
+
+        <div>
+
+            <h4 class="section-title mb-1">
+
+                Refactoring Suggestions
+
+            </h4>
+
+            <p class="text-muted mb-0">
+
+                Suggestions for making the code cleaner
+                and easier to maintain.
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    {% if analysis.refactoring %}
+
+        <div class="review-box">
+
+            {{ analysis.refactoring }}
+
+        </div>
+
+    {% else %}
+
+        <div class="alert alert-secondary rounded-3">
+
+            No refactoring suggestions were generated
+            for this analysis.
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+
+<!-- =====================================================
+     SMART LEARNING MODE
+====================================================== -->
+
+<div class="result-card p-4">
+
+    <div class="d-flex align-items-center mb-3">
+
+        <i class="bi bi-mortarboard-fill text-success fs-2 me-3"></i>
+
+        <div>
+
+            <h4 class="section-title mb-1">
+
+                Smart Learning Mode
+
+            </h4>
+
+            <p class="text-muted mb-0">
+
+                Learn why the detected issues matter and
+                how to improve your programming practices.
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    {% if analysis.learning_mode %}
+
+        <div class="review-box">
+
+            {{ analysis.learning_mode }}
+
+        </div>
+
+    {% else %}
+
+        <div class="alert alert-info rounded-3">
+
+            No learning explanations were generated
+            for this analysis.
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+
+<!-- =====================================================
+     ACHIEVEMENT
+====================================================== -->
+
+<div class="result-card p-4">
+
+    <div class="d-flex align-items-center">
+
+        <i class="bi bi-trophy-fill text-warning fs-1 me-4"></i>
+
+        <div>
+
+            <h4 class="section-title mb-1">
+
+                Achievement
+
+            </h4>
+
+            <p class="text-muted mb-2">
+
+                Your current code quality level
+
+            </p>
+
+
+            {% if analysis.achievement == "Expert" %}
+
+                <div class="achievement">
+                    🏆 Expert
+                </div>
+
+            {% elif analysis.achievement == "Advanced" %}
+
+                <div class="achievement">
+                    🥇 Advanced
+                </div>
+
+            {% elif analysis.achievement == "Intermediate" %}
+
+                <div class="achievement">
+                    🥈 Intermediate
+                </div>
+
+            {% else %}
+
+                <div class="achievement">
+                    🌱 Beginner
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     ACTION BUTTONS
+====================================================== -->
+
+<div class="text-center mt-4 mb-5">
+
+    <a
+        href="{% url 'upload' %}"
+        class="btn btn-dark btn-lg px-4 me-2"
+    >
+
+        <i class="bi bi-upload"></i>
+
+        Analyze Another File
+
+    </a>
+
+
+    <a
+        href="{% url 'dashboard' %}"
+        class="btn btn-outline-dark btn-lg px-4"
+    >
+
+        <i class="bi bi-speedometer2"></i>
+
+        Back to Dashboard
+
+    </a>
+
+</div>
+```
+
+</div>
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="footer">
+
+```
+<div class="container">
+
+    <p class="mb-1">
+
+        <strong>
+            CodeGuard AI
+        </strong>
+
+    </p>
+
+    <small>
+
+        AI-Based Software Bug Prediction &amp;
+        Code Quality Analysis System
+
+    </small>
+
+</div>
+```
+
+</footer>
+
+<!-- Bootstrap JavaScript -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+</body>
+
+</html>

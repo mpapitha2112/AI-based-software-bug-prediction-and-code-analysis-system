@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Home | AI Bug Prediction
+{% endblock %}
+
+{% block content %}
+
+<div class="row align-items-center mt-5">
+
+    <div class="col-lg-6">
+
+        <h1 class="display-4 fw-bold">
+            AI-Based Software Bug Prediction &
+            Code Quality Analysis
+        </h1>
+
+        <p class="lead mt-4 text-muted">
+            Upload your Python source code and let Artificial Intelligence
+            detect bugs, analyze code quality, identify security
+            vulnerabilities, and suggest improvements.
+        </p>
+
+        <a href="{% url 'register' %}" class="btn btn-primary btn-lg mt-3">
+            Get Started
+        </a>
+
+        <a href="{% url 'login' %}" class="btn btn-outline-primary btn-lg mt-3 ms-2">
+            Login
+        </a>
+
+    </div>
+
+    <div class="col-lg-6 text-center">
+
+        <img src="https://cdn-icons-png.flaticon.com/512/2103/2103633.png"
+             class="img-fluid"
+             width="420">
+
+    </div>
+
+</div>
+
+<hr class="my-5">
+
+<h2 class="text-center fw-bold mb-5">
+    Why Choose Our System?
+</h2>
+
+<div class="row g-4">
+
+    <div class="col-md-4">
+
+        <div class="card h-100">
+
+            <div class="card-body text-center">
+
+                <h1>🤖</h1>
+
+                <h4>AI Bug Prediction</h4>
+
+                <p>
+                    Predict software bug risk using machine learning.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card h-100">
+
+            <div class="card-body text-center">
+
+                <h1>🔒</h1>
+
+                <h4>Security Scanner</h4>
+
+                <p>
+                    Detect security vulnerabilities and unsafe coding practices.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card h-100">
+
+            <div class="card-body text-center">
+
+                <h1>📊</h1>
+
+                <h4>Code Quality</h4>
+
+                <p>
+                    Analyze readability, complexity and maintainability.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row g-4 mt-3">
+
+    <div class="col-md-4">
+
+        <div class="card h-100">
+
+            <div class="card-body text-center">
+
+                <h1>💡</h1>
+
+                <h4>AI Code Review</h4>
+
+                <p>
+                    Receive intelligent suggestions to improve your code.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card h-100">
+
+            <div class="card-body text-center">
+
+                <h1>📚</h1>
+
+                <h4>Smart Learning</h4>
+
+                <p>
+                    Learn concepts related to issues detected in your code.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card h-100">
+
+            <div class="card-body text-center">
+
+                <h1>🏆</h1>
+
+                <h4>Achievements</h4>
+
+                <p>
+                    Earn badges as you improve your coding skills.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

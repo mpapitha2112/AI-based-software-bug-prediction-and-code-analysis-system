@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Upload Code | AI Bug Prediction
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">AI Code Analyzer</h2>
+        <p class="text-muted">
+            Upload your Python source code and analyze its quality,
+            bug risk and security.
+        </p>
+    </div>
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card upload-card">
+
+                <div class="card-body p-5">
+
+                    <div class="upload-icon">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                    </div>
+
+                    <h4 class="fw-bold text-center mt-3">
+                        Upload Python Code
+                    </h4>
+
+                    <p class="text-muted text-center">
+                        Supported format: .py
+                    </p>
+
+                    <form method="POST"
+                          enctype="multipart/form-data">
+
+                        {% csrf_token %}
+
+                        <div class="upload-area mt-4">
+
+                            <i class="fa-brands fa-python python-icon"></i>
+
+                            <h5>
+                                Select your Python file
+                            </h5>
+
+                            <p class="text-muted">
+                                Choose a .py file from your computer
+                            </p>
+
+                            <input
+                                type="file"
+                                name="code_file"
+                                class="form-control"
+                                accept=".py"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="mt-4">
+
+                            <label class="form-label fw-bold">
+                                Project Name
+                            </label>
+
+                            <input
+                                type="text"
+                                name="project_name"
+                                class="form-control"
+                                placeholder="Example: Student Management System"
+                                required
+                            >
+
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary btn-lg w-100 mt-4">
+
+                            <i class="fa-solid fa-magnifying-glass-chart"></i>
+
+                            Analyze My Code
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Analysis Features -->
+
+    <div class="row g-4 mt-4">
+
+        <div class="col-md-3">
+
+            <div class="card analysis-feature">
+
+                <i class="fa-solid fa-bug"></i>
+
+                <h6>Bug Prediction</h6>
+
+                <p>
+                    Identify potential software bugs.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card analysis-feature">
+
+                <i class="fa-solid fa-code"></i>
+
+                <h6>Code Quality</h6>
+
+                <p>
+                    Measure code quality and maintainability.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card analysis-feature">
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+                <h6>Security</h6>
+
+                <p>
+                    Detect common security risks.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card analysis-feature">
+
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+                <h6>AI Suggestions</h6>
+
+                <p>
+                    Get recommendations for improvement.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

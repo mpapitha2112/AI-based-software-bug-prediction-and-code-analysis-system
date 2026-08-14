@@ -1,0 +1,870 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard | CodeGuard AI</title>
+
+<!-- Bootstrap 5 -->
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+>
+
+<!-- Bootstrap Icons -->
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    rel="stylesheet"
+>
+
+<style>
+
+    body {
+        background: #f5f7fb;
+        font-family: Arial, sans-serif;
+        color: #111827;
+    }
+
+    .navbar {
+        background: #ffffff;
+    }
+
+    .navbar-brand {
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+
+    .nav-link {
+        font-weight: 500;
+    }
+
+    .dashboard-header {
+        background: linear-gradient(
+            135deg,
+            #172554,
+            #2563eb
+        );
+        color: white;
+        border-radius: 24px;
+        padding: 35px;
+        margin-bottom: 30px;
+    }
+
+    .dashboard-header h1 {
+        font-weight: 700;
+    }
+
+    .stat-card {
+        background: white;
+        border: none;
+        border-radius: 20px;
+        padding: 25px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+        height: 100%;
+    }
+
+    .stat-icon {
+        width: 55px;
+        height: 55px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 25px;
+        margin-bottom: 15px;
+    }
+
+    .icon-blue {
+        background: #eef2ff;
+        color: #2563eb;
+    }
+
+    .icon-red {
+        background: #fef2f2;
+        color: #dc2626;
+    }
+
+    .icon-green {
+        background: #f0fdf4;
+        color: #16a34a;
+    }
+
+    .icon-purple {
+        background: #faf5ff;
+        color: #9333ea;
+    }
+
+    .stat-title {
+        color: #6b7280;
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    .stat-value {
+        font-size: 30px;
+        font-weight: 700;
+    }
+
+    .content-card {
+        background: white;
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+    }
+
+    .section-title {
+        font-weight: 700;
+        color: #111827;
+    }
+
+    .analysis-row {
+        border: 1px solid #e5e7eb;
+        border-radius: 15px;
+        padding: 18px;
+        margin-bottom: 12px;
+        background: #ffffff;
+        transition: 0.2s ease;
+    }
+
+    .analysis-row:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
+    }
+
+    .project-name {
+        font-weight: 700;
+        color: #111827;
+    }
+
+    .score {
+        font-weight: 700;
+    }
+
+    .empty-box {
+        background: #f8fafc;
+        border-radius: 18px;
+        padding: 50px 20px;
+        text-align: center;
+    }
+
+    .empty-icon {
+        font-size: 55px;
+        color: #2563eb;
+    }
+
+    .quick-card {
+        background: white;
+        border-radius: 20px;
+        padding: 25px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+        height: 100%;
+    }
+
+    .quick-icon {
+        font-size: 35px;
+        margin-bottom: 15px;
+    }
+
+    .footer {
+        color: #6b7280;
+        padding: 35px 0;
+        text-align: center;
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<nav class="navbar navbar-expand-lg shadow-sm">
+
+```
+<div class="container">
+
+    <a
+        class="navbar-brand text-primary"
+        href="{% url 'dashboard' %}"
+    >
+
+        <i class="bi bi-shield-check"></i>
+
+        CodeGuard AI
+
+    </a>
+
+
+    <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarMenu"
+        aria-controls="navbarMenu"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+    >
+
+        <span class="navbar-toggler-icon"></span>
+
+    </button>
+
+
+    <div
+        class="collapse navbar-collapse"
+        id="navbarMenu"
+    >
+
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+
+            <li class="nav-item">
+
+                <a
+                    class="nav-link active"
+                    href="{% url 'dashboard' %}"
+                >
+                    Dashboard
+                </a>
+
+            </li>
+
+
+            <li class="nav-item">
+
+                <a
+                    class="nav-link"
+                    href="{% url 'upload' %}"
+                >
+                    Analyze Code
+                </a>
+
+            </li>
+
+
+            <li class="nav-item">
+
+                <a
+                    class="nav-link text-danger"
+                    href="{% url 'logout' %}"
+                >
+                    Logout
+                </a>
+
+            </li>
+
+        </ul>
+
+    </div>
+
+</div>
+```
+
+</nav>
+
+<!-- =========================================================
+     MAIN CONTENT
+========================================================= -->
+
+<div class="container py-5">
+
+```
+<!-- =====================================================
+     DASHBOARD HEADER
+====================================================== -->
+
+<div class="dashboard-header">
+
+    <div class="row align-items-center">
+
+        <div class="col-lg-8">
+
+            <p class="mb-2 opacity-75">
+
+                <i class="bi bi-speedometer2"></i>
+
+                Code Analysis Dashboard
+
+            </p>
+
+
+            <h1 class="mb-2">
+
+                Welcome,
+                {{ request.user.username }}
+
+            </h1>
+
+
+            <p class="mb-0 opacity-75">
+
+                Monitor your Python code quality,
+                security, health and bug-risk analysis.
+
+            </p>
+
+        </div>
+
+
+        <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+
+            <a
+                href="{% url 'upload' %}"
+                class="btn btn-light btn-lg px-4"
+            >
+
+                <i class="bi bi-plus-circle"></i>
+
+                Analyze New Code
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     STATISTICS
+====================================================== -->
+
+<div class="row g-4 mb-4">
+
+
+    <!-- Total Analyses -->
+
+    <div class="col-md-6 col-lg-3">
+
+        <div class="stat-card">
+
+            <div class="stat-icon icon-blue">
+
+                <i class="bi bi-file-earmark-code"></i>
+
+            </div>
+
+            <div class="stat-title">
+
+                Total Analyses
+
+            </div>
+
+            <div class="stat-value">
+
+                {{ analyses|length }}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- High Risk -->
+
+    <div class="col-md-6 col-lg-3">
+
+        <div class="stat-card">
+
+            <div class="stat-icon icon-red">
+
+                <i class="bi bi-exclamation-triangle"></i>
+
+            </div>
+
+            <div class="stat-title">
+
+                High Bug Risk
+
+            </div>
+
+            <div class="stat-value">
+
+                {% widthratio analyses|length 1 1 %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Security -->
+
+    <div class="col-md-6 col-lg-3">
+
+        <div class="stat-card">
+
+            <div class="stat-icon icon-green">
+
+                <i class="bi bi-shield-check"></i>
+
+            </div>
+
+            <div class="stat-title">
+
+                Security Monitoring
+
+            </div>
+
+            <div class="stat-value">
+
+                Active
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- AI -->
+
+    <div class="col-md-6 col-lg-3">
+
+        <div class="stat-card">
+
+            <div class="stat-icon icon-purple">
+
+                <i class="bi bi-stars"></i>
+
+            </div>
+
+            <div class="stat-title">
+
+                AI Analysis
+
+            </div>
+
+            <div class="stat-value">
+
+                Active
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     QUICK ACTIONS
+====================================================== -->
+
+<div class="row g-4 mb-4">
+
+
+    <div class="col-md-4">
+
+        <div class="quick-card text-center">
+
+            <div class="quick-icon text-primary">
+
+                <i class="bi bi-upload"></i>
+
+            </div>
+
+            <h5 class="section-title">
+
+                Analyze Python Code
+
+            </h5>
+
+            <p class="text-muted">
+
+                Upload a Python file and receive
+                a complete code analysis.
+
+            </p>
+
+            <a
+                href="{% url 'upload' %}"
+                class="btn btn-primary"
+            >
+
+                Start Analysis
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-4">
+
+        <div class="quick-card text-center">
+
+            <div class="quick-icon text-success">
+
+                <i class="bi bi-shield-lock"></i>
+
+            </div>
+
+            <h5 class="section-title">
+
+                Security Analysis
+
+            </h5>
+
+            <p class="text-muted">
+
+                Detect common security problems
+                in your Python source code.
+
+            </p>
+
+            <span class="badge bg-success fs-6">
+
+                Enabled
+
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-4">
+
+        <div class="quick-card text-center">
+
+            <div class="quick-icon text-warning">
+
+                <i class="bi bi-robot"></i>
+
+            </div>
+
+            <h5 class="section-title">
+
+                AI Code Review
+
+            </h5>
+
+            <p class="text-muted">
+
+                Get recommendations for improving
+                readability and maintainability.
+
+            </p>
+
+            <span class="badge bg-primary fs-6">
+
+                Enabled
+
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     ANALYSIS HISTORY
+====================================================== -->
+
+<div class="content-card p-4">
+
+    <div class="d-flex
+                justify-content-between
+                align-items-center
+                mb-4">
+
+        <div>
+
+            <h4 class="section-title mb-1">
+
+                <i class="bi bi-clock-history text-primary"></i>
+
+                Recent Analysis
+
+            </h4>
+
+            <p class="text-muted mb-0">
+
+                Your previously analyzed Python projects.
+
+            </p>
+
+        </div>
+
+
+        <a
+            href="{% url 'upload' %}"
+            class="btn btn-outline-primary"
+        >
+
+            <i class="bi bi-plus"></i>
+
+            New Analysis
+
+        </a>
+
+    </div>
+
+
+    {% if analyses %}
+
+
+        {% for analysis in analyses %}
+
+            <div class="analysis-row">
+
+                <div class="row align-items-center g-3">
+
+
+                    <!-- Project -->
+
+                    <div class="col-lg-3">
+
+                        <div class="project-name">
+
+                            <i class="bi bi-file-earmark-code
+                                      text-primary"></i>
+
+                            {{ analysis.project_name }}
+
+                        </div>
+
+                        <small class="text-muted">
+
+                            {% if analysis.created_at %}
+
+                                {{ analysis.created_at|date:"d M Y, h:i A" }}
+
+                            {% else %}
+
+                                Analysis completed
+
+                            {% endif %}
+
+                        </small>
+
+                    </div>
+
+
+                    <!-- Bug Risk -->
+
+                    <div class="col-6 col-lg-2">
+
+                        <small class="text-muted d-block">
+
+                            Bug Risk
+
+                        </small>
+
+
+                        {% if analysis.bug_risk == "High" %}
+
+                            <span class="badge bg-danger">
+
+                                High
+
+                            </span>
+
+                        {% elif analysis.bug_risk == "Medium" %}
+
+                            <span class="badge bg-warning text-dark">
+
+                                Medium
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-success">
+
+                                Low
+
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- Quality -->
+
+                    <div class="col-6 col-lg-2">
+
+                        <small class="text-muted d-block">
+
+                            Quality
+
+                        </small>
+
+                        <span class="score">
+
+                            {{ analysis.quality_score }}/100
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- Security -->
+
+                    <div class="col-6 col-lg-2">
+
+                        <small class="text-muted d-block">
+
+                            Security
+
+                        </small>
+
+                        <span class="score">
+
+                            {{ analysis.security_score }}/100
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- Health -->
+
+                    <div class="col-6 col-lg-2">
+
+                        <small class="text-muted d-block">
+
+                            Health
+
+                        </small>
+
+                        <span class="score">
+
+                            {{ analysis.health_score }}/100
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- View -->
+
+                    <div class="col-lg-1 text-lg-end">
+
+                        <a
+                            href="{% url 'result' analysis.id %}"
+                            class="btn btn-primary btn-sm"
+                            title="View Analysis"
+                        >
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </a>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+
+    {% else %}
+
+
+        <!-- EMPTY STATE -->
+
+        <div class="empty-box">
+
+            <div class="empty-icon">
+
+                <i class="bi bi-file-earmark-code"></i>
+
+            </div>
+
+
+            <h4 class="fw-bold mt-3">
+
+                No Code Analyses Yet
+
+            </h4>
+
+
+            <p class="text-muted">
+
+                Upload your first Python file to start
+                analyzing code quality and security.
+
+            </p>
+
+
+            <a
+                href="{% url 'upload' %}"
+                class="btn btn-primary px-4"
+            >
+
+                <i class="bi bi-upload"></i>
+
+                Analyze Your First File
+
+            </a>
+
+        </div>
+
+
+    {% endif %}
+
+</div>
+```
+
+</div>
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="footer">
+
+```
+<div class="container">
+
+    <p class="mb-1">
+
+        <strong>CodeGuard AI</strong>
+
+    </p>
+
+    <small>
+
+        AI-Based Software Bug Prediction & Code Quality
+        Analysis System
+
+    </small>
+
+</div>
+```
+
+</footer>
+
+<!-- Bootstrap JavaScript -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+</body>
+
+</html>

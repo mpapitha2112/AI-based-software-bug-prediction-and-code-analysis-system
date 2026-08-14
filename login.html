@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Login | AI Bug Predictor</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 25px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 900px;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            background: white;
+
+            border-radius: 22px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 15px 45px rgba(0, 0, 0, 0.10);
+        }
+
+        /* LEFT SIDE */
+
+        .welcome {
+            background:
+                linear-gradient(
+                    135deg,
+                    #111827,
+                    #2563eb
+                );
+
+            color: white;
+
+            padding: 55px 45px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+
+            margin-bottom: 35px;
+        }
+
+        .logo span {
+            color: #93c5fd;
+        }
+
+        .welcome h1 {
+            font-size: 38px;
+            margin-bottom: 15px;
+        }
+
+        .welcome p {
+            color: #dbeafe;
+            line-height: 1.7;
+        }
+
+        .feature {
+            margin-top: 25px;
+        }
+
+        .feature-item {
+            margin: 15px 0;
+            color: #e5e7eb;
+        }
+
+        /* RIGHT SIDE */
+
+        .login-section {
+            padding: 55px 45px;
+        }
+
+        .login-section h2 {
+            margin: 0;
+            font-size: 30px;
+            color: #111827;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #374151;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 9px;
+
+            font-size: 15px;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(37, 99, 235, 0.10);
+        }
+
+        .error-box {
+            background: #fef2f2;
+
+            border: 1px solid #fecaca;
+
+            color: #b91c1c;
+
+            padding: 12px 15px;
+
+            border-radius: 9px;
+
+            margin-bottom: 20px;
+
+            font-size: 14px;
+        }
+
+        .login-button {
+            width: 100%;
+
+            padding: 13px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background: #2563eb;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .login-button:hover {
+            background: #1d4ed8;
+        }
+
+        .register-link {
+            text-align: center;
+
+            margin-top: 22px;
+
+            color: #6b7280;
+
+            font-size: 14px;
+        }
+
+        .register-link a {
+            color: #2563eb;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+        @media (max-width: 750px) {
+
+            .login-container {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome {
+                display: none;
+            }
+
+            .login-section {
+                padding: 35px 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="login-container">
+
+
+    <!-- LEFT SIDE -->
+
+    <div class="welcome">
+
+        <div class="logo">
+
+            AI <span>Bug Predictor</span>
+
+        </div>
+
+        <h1>
+            Welcome Back
+        </h1>
+
+        <p>
+            Sign in to analyze your Python projects,
+            detect potential bugs and improve your
+            software quality.
+        </p>
+
+
+        <div class="feature">
+
+            <div class="feature-item">
+                🐞 Bug Risk Prediction
+            </div>
+
+            <div class="feature-item">
+                🛡 Security Detection
+            </div>
+
+            <div class="feature-item">
+                🤖 AI Code Review
+            </div>
+
+            <div class="feature-item">
+                📊 Code Quality Analysis
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- LOGIN FORM -->
+
+    <div class="login-section">
+
+        <h2>
+            Login
+        </h2>
+
+        <p class="subtitle">
+            Enter your account details to continue.
+        </p>
+
+
+        {% if error %}
+
+            <div class="error-box">
+
+                {{ error }}
+
+            </div>
+
+        {% endif %}
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <div class="form-group">
+
+                <label for="username">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Enter your username"
+                    required
+                    autocomplete="username"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required
+                    autocomplete="current-password"
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="login-button">
+
+                Login
+
+            </button>
+
+        </form>
+
+
+        <div class="register-link">
+
+            Don't have an account?
+
+            <a href="{% url 'register' %}">
+                Create Account
+            </a>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>
